@@ -1,5 +1,4 @@
-import { Box, Button } from '@mantine/core';
-import styles from './index.module.css';
+import { Box } from '@mantine/core';
 
 export function Index() {
   /*
@@ -7,11 +6,7 @@ export function Index() {
    *
    * Note: The corresponding styles are in the ./index.css file.
    */
-  return (
-    <Box>
-      <Button>Hello mantine</Button>
-    </Box>
-  );
+  return <Box>Home page</Box>;
 }
 
 export default Index;

@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { MantineProvider } from '@mantine/core';
+import { AppShell, Header, MantineProvider } from '@mantine/core';
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -9,7 +9,10 @@ export default function App(props: AppProps) {
     <>
       <Head>
         <title>Page title</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
       </Head>
 
       <MantineProvider
@@ -20,7 +23,25 @@ export default function App(props: AppProps) {
           colorScheme: 'light',
         }}
       >
-        <Component {...pageProps} />
+        <AppShell
+          padding="md"
+          header={
+            <Header height={60} p="xs">
+              ShareTube
+            </Header>
+          }
+          styles={(theme) => ({
+            main: {
+              backgroundColor:
+                theme.colorScheme === 'dark'
+                  ? theme.colors.dark[8]
+                  : theme.colors.gray[0],
+            },
+          })}
+          fixed
+        >
+          <Component {...pageProps} />
+        </AppShell>
       </MantineProvider>
     </>
   );
