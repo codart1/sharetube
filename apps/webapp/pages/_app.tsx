@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { AppShell, Header, MantineProvider } from '@mantine/core';
+import { AppShell, Container, Header, MantineProvider } from '@mantine/core';
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -40,7 +40,9 @@ export default function App(props: AppProps) {
           })}
           fixed
         >
-          <Component {...pageProps} />
+          <Container size="lg">
+            <Component {...pageProps} />
+          </Container>
         </AppShell>
       </MantineProvider>
     </>
