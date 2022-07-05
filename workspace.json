@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "config": "libs/config",
     "supabase": "libs/supabase",
     "webapp": "apps/webapp",
     "webapp-e2e": "apps/webapp-e2e"

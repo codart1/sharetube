@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@sharetube/config": ["libs/config/src/index.ts"],
       "@sharetube/supabase": ["libs/supabase/src/index.ts"]
     }
   },
