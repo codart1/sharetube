@@ -1,6 +1,7 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { AppShell, Container, Header, MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -23,27 +24,29 @@ export default function App(props: AppProps) {
           colorScheme: 'light',
         }}
       >
-        <AppShell
-          padding="md"
-          header={
-            <Header height={60} p="xs">
-              ShareTube
-            </Header>
-          }
-          styles={(theme) => ({
-            main: {
-              backgroundColor:
-                theme.colorScheme === 'dark'
-                  ? theme.colors.dark[8]
-                  : theme.colors.gray[0],
-            },
-          })}
-          fixed
-        >
-          <Container size="lg">
-            <Component {...pageProps} />
-          </Container>
-        </AppShell>
+        <NotificationsProvider>
+          <AppShell
+            padding="md"
+            header={
+              <Header height={60} p="xs">
+                ShareTube
+              </Header>
+            }
+            styles={(theme) => ({
+              main: {
+                backgroundColor:
+                  theme.colorScheme === 'dark'
+                    ? theme.colors.dark[8]
+                    : theme.colors.gray[0],
+              },
+            })}
+            fixed
+          >
+            <Container size="lg">
+              <Component {...pageProps} />
+            </Container>
+          </AppShell>
+        </NotificationsProvider>
       </MantineProvider>
     </>
   );
