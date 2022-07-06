@@ -10,8 +10,15 @@ import {
 } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { Profile } from '../shared/Profile';
+import { withRPC } from '../shared/rpc/hoc';
 
-export default function App(props: AppProps) {
+export default withRPC(
+  process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}/api/trpc`
+    : 'http://localhost:4200/api/trpc'
+)(App);
+
+function App(props: AppProps) {
   const { Component, pageProps } = props;
 
   return (

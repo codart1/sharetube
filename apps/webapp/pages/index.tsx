@@ -1,11 +1,9 @@
 import { Box } from '@mantine/core';
+import { rpc } from '../shared/rpc/hook';
 
 export function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.css file.
-   */
+  const r = rpc.useQuery(['hello', { text: 'Manh Do' }]);
+  console.log(r);
   return <Box>Home page</Box>;
 }
 

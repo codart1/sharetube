@@ -26,10 +26,10 @@ export function Profile() {
       <Menu target={<Avatar radius="xl" />} />
       <Text>{session.user.email}</Text>
     </Group>
+  ) : router.pathname !== '/login' ? (
+    <Button onClick={() => router.push('/login')}>Login</Button>
   ) : (
-    router.pathname !== '/login' && (
-      <Button onClick={() => router.push('/login')}>Login</Button>
-    )
+    <></>
   );
 }
 
