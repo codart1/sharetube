@@ -4,7 +4,7 @@ import {
   Group,
   PasswordInput,
   TextInput,
-  Title
+  Title,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { useMemo, useState } from 'react';
@@ -14,7 +14,7 @@ export function AuthForm({
   onSubmit,
   type,
 }: {
-  onSubmit: (values: z.infer<typeof loginSchema>) => Promise<void>;
+  onSubmit: (values: z.infer<typeof loginSchema>) => Promise<unknown>;
   type: 'login' | 'register';
 }) {
   const [loading, setLoading] = useState(false);
@@ -22,8 +22,18 @@ export function AuthForm({
   const typeBased = useMemo(
     () =>
       type === 'login'
-        ? { type, schema: loginSchema, initialValue: loginInitialValues }
-        : { type, schema: registerSchema, initialValue: registerInitialValues },
+        ? {
+            type,
+            schema: loginSchema,
+            initialValue: loginInitialValues,
+            title: 'Login',
+          }
+        : {
+            type,
+            schema: registerSchema,
+            initialValue: registerInitialValues,
+            title: 'Register',
+          },
     [type]
   );
 
@@ -52,7 +62,7 @@ export function AuthForm({
       })}
     >
       <Title order={1} my="md">
-        Register
+        {typeBased.title}
       </Title>
       <TextInput
         required
@@ -80,7 +90,7 @@ export function AuthForm({
 
       <Group position="right" mt="xl">
         <Button type="submit" loading={loading} disabled={loading}>
-          {type === 'login' ? 'Login' : 'Register'}
+          {typeBased.title}
         </Button>
       </Group>
     </Box>

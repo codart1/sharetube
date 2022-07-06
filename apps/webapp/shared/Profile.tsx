@@ -2,15 +2,17 @@ import { Avatar, Text, Group, Popover, Button, Box } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { supabase } from '@sharetube/supabase';
 import { Session } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 export function Profile() {
   const [session, setSession] = useState<Session | null>();
+  const router = useRouter();
 
   useEffect(() => {
     setSession(supabase.client.auth.session());
 
-    const sub = supabase.client.auth.onAuthStateChange((event, session) =>
+    const sub = supabase.client.auth.onAuthStateChange((_, session) =>
       setSession(session)
     );
 
@@ -24,7 +26,11 @@ export function Profile() {
       <Menu target={<Avatar radius="xl" />} />
       <Text>{session.user.email}</Text>
     </Group>
-  ) : null;
+  ) : (
+    router.pathname !== '/login' && (
+      <Button onClick={() => router.push('/login')}>Login</Button>
+    )
+  );
 }
 
 const Menu = ({ target }: { target: React.ReactNode }) => {
