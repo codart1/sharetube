@@ -5,7 +5,7 @@ import { ExclamationMark, Check } from 'tabler-icons-react';
 import { rpc } from '../shared/rpc/hook';
 
 export default function Register() {
-  const { mutateAsync: bindProfile } = rpc.useMutation('bindProfile');
+  const { mutateAsync: bindProfile } = rpc.useMutation('public.bindProfile');
 
   return (
     <AuthForm
