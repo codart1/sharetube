@@ -3,26 +3,34 @@ import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 import { prisma } from '@sharetube/prisma';
 import { supabasePrivate } from '../../supabase/supabasePrivate';
+import { TRPCError } from '@trpc/server';
+import { createPostSchema } from '../../validationSchemas/createPost';
 
 // The app's context - is generated for each incoming request
 export async function createContext(opts?: trpcNext.CreateNextContextOptions) {
-  // Create your context based on the request object
-  // Will be available as `ctx` in all your resolvers
-
-  // This is just an example of something you'd might want to do in your ctx fn
   async function getUserFromHeader() {
     // console.log('headers', opts?.req.headers);
     const jwt = opts?.req.headers.authorization;
     if (jwt) {
-      const data = await supabasePrivate.auth.api.getUser(jwt);
-      return data.user;
+      const { user } = await supabasePrivate.auth.api.getUser(jwt);
+
+      if (!user) return null;
+      const profile = await prisma.profile.findUnique({
+        where: { userId: user?.id },
+      });
+
+      if (!profile) return null;
+
+      return {
+        profile,
+        user,
+      };
     }
     return null;
   }
-  const user = await getUserFromHeader();
 
   return {
-    user,
+    auth: await getUserFromHeader(),
   };
 }
 type Context = trpc.inferAsyncReturnType<typeof createContext>;
@@ -31,16 +39,31 @@ const createRouter = () => {
   return trpc.router<Context>();
 };
 
-const authenticatedRoutes = createRouter().mutation('createPost', {
-  input: z.string(),
-  async resolve({ input: userId, ctx }) {
-    return prisma.profile.create({
-      data: {
-        userId,
-      },
-    });
-  },
-});
+const authenticatedRoutes = createRouter()
+  .middleware(async ({ ctx, next }) => {
+    if (!ctx.auth) {
+      throw new TRPCError({ code: 'UNAUTHORIZED' });
+    }
+    return next();
+  })
+  .mutation('createPost', {
+    input: createPostSchema,
+    async resolve({ input: { videoUrl, title, description }, ctx: { auth } }) {
+      return prisma.post.create({
+        data: {
+          title,
+          url: videoUrl,
+          description,
+          profileId: auth!.profile.id,
+        },
+      });
+    },
+  })
+  .query('helloUser', {
+    resolve({ ctx }) {
+      return `hello ${ctx.auth?.user?.email}`;
+    },
+  });
 
 const publicRoutes = createRouter()
   .mutation('bindProfile', {
@@ -55,7 +78,6 @@ const publicRoutes = createRouter()
   })
   .query('hello', {
     resolve({ ctx }) {
-      console.log(ctx.user);
       return 'hello';
     },
   });
