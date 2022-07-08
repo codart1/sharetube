@@ -1,8 +1,8 @@
 import { showNotification } from '@mantine/notifications';
-import { supabase } from '@sharetube/supabase';
+import { Check, ExclamationMark } from 'tabler-icons-react';
 import { AuthForm } from '../shared/AuthForm';
-import { ExclamationMark, Check } from 'tabler-icons-react';
 import { rpc } from '../shared/rpc/hook';
+import { supabasePublic } from '../shared/supabase/supabasePublic';
 
 export default function Register() {
   const { mutateAsync: bindProfile } = rpc.useMutation('public.bindProfile');
@@ -10,7 +10,7 @@ export default function Register() {
   return (
     <AuthForm
       onSubmit={async ({ email, password }) => {
-        const { error, user } = await supabase.client.auth.signUp({
+        const { error, user } = await supabasePublic.auth.signUp({
           email,
           password,
         });

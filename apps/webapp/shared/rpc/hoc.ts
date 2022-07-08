@@ -1,5 +1,5 @@
-import { supabase } from '@sharetube/supabase';
 import { withTRPC } from '@trpc/next';
+import { supabasePublic } from '../supabase/supabasePublic';
 import type { AppRouter } from './routers';
 
 export const withRPC = (url: string) =>
@@ -9,7 +9,7 @@ export const withRPC = (url: string) =>
         url,
         headers() {
           return {
-            Authorization: supabase.client.auth.session()?.access_token,
+            Authorization: supabasePublic.auth.session()?.access_token,
           };
         },
       };

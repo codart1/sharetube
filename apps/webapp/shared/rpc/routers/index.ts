@@ -2,6 +2,7 @@ import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 import { prisma } from '@sharetube/prisma';
+import { supabasePrivate } from '../../supabase/supabasePrivate';
 
 // The app's context - is generated for each incoming request
 export async function createContext(opts?: trpcNext.CreateNextContextOptions) {
@@ -10,10 +11,11 @@ export async function createContext(opts?: trpcNext.CreateNextContextOptions) {
 
   // This is just an example of something you'd might want to do in your ctx fn
   async function getUserFromHeader() {
-    console.log('headers', opts?.req.headers);
-    if (opts?.req.headers.authorization) {
-      // const user = await decodeJwtToken(req.headers.authorization.split(' ')[1])
-      // return user;
+    // console.log('headers', opts?.req.headers);
+    const jwt = opts?.req.headers.authorization;
+    if (jwt) {
+      const data = await supabasePrivate.auth.api.getUser(jwt);
+      return data.user;
     }
     return null;
   }
@@ -52,7 +54,8 @@ const publicRoutes = createRouter()
     },
   })
   .query('hello', {
-    resolve() {
+    resolve({ ctx }) {
+      console.log(ctx.user);
       return 'hello';
     },
   });

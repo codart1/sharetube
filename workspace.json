@@ -4,7 +4,6 @@
   "projects": {
     "config": "libs/config",
     "prisma": "libs/prisma",
-    "supabase": "libs/supabase",
     "webapp": "apps/webapp",
     "webapp-e2e": "apps/webapp-e2e"
   }

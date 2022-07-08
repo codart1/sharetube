@@ -1,14 +1,14 @@
 import { showNotification } from '@mantine/notifications';
-import { supabase } from '@sharetube/supabase';
 import { useRouter } from 'next/router';
 import { AuthForm } from '../shared/AuthForm';
+import { supabasePublic } from '../shared/supabase/supabasePublic';
 
 export default function Login() {
   const router = useRouter();
   return (
     <AuthForm
       onSubmit={({ email, password }) =>
-        supabase.client.auth.signIn({ email, password }).then(({ error }) => {
+        supabasePublic.auth.signIn({ email, password }).then(({ error }) => {
           if (error) {
             return showNotification({ message: error.message, color: 'red' });
           }

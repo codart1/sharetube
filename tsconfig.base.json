@@ -16,8 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@sharetube/config": ["libs/config/src/index.ts"],
-      "@sharetube/prisma": ["libs/prisma/src/index.ts"],
-      "@sharetube/supabase": ["libs/supabase/src/index.ts"]
+      "@sharetube/prisma": ["libs/prisma/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
