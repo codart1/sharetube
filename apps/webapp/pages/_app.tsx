@@ -11,6 +11,7 @@ import {
 import { NotificationsProvider } from '@mantine/notifications';
 import { Profile } from '../shared/Profile';
 import { withRPC } from '../shared/rpc/hoc';
+import { useRouter } from 'next/router';
 
 export default withRPC(
   process.env.VERCEL_URL
@@ -20,6 +21,7 @@ export default withRPC(
 
 function App(props: AppProps) {
   const { Component, pageProps } = props;
+  const router = useRouter();
 
   return (
     <>
@@ -46,7 +48,10 @@ function App(props: AppProps) {
               <Header height={60} p="xs">
                 <Container size="lg">
                   <Group position="apart">
-                    <Group>
+                    <Group
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => router.push('/')}
+                    >
                       <Logo />
                       <Text>ShareTube</Text>
                     </Group>

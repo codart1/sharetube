@@ -26,8 +26,13 @@ export function Profile() {
       <Menu target={<Avatar radius="xl" />} />
       <Text>{session.user.email}</Text>
     </Group>
-  ) : router.pathname !== '/login' ? (
-    <Button onClick={() => router.push('/login')}>Login</Button>
+  ) : !['/login', '/register'].includes(router.pathname) ? (
+    <Group>
+      <Button onClick={() => router.push('/login')}>Login</Button>
+      <Button variant="light" onClick={() => router.push('/register')}>
+        Register
+      </Button>
+    </Group>
   ) : (
     <></>
   );
