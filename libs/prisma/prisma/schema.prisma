@@ -14,7 +14,8 @@ model Profile {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    String   @db.Uuid
+  userId    String   @unique @db.Uuid
+  Post      Post[]
 }
 
 model Post {
@@ -23,4 +24,7 @@ model Post {
   updatedAt DateTime @updatedAt
   title     String   @db.VarChar(255)
   url       String
+
+  author    Profile @relation(fields: [profileId], references: [id])
+  profileId Int
 }
