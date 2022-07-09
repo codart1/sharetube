@@ -3,6 +3,7 @@ import { noti } from '@sharetube/notification';
 import { Session } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { Plus } from 'tabler-icons-react';
 import { supabasePublic } from './supabase/supabasePublic';
 
 export function Profile() {
@@ -23,6 +24,9 @@ export function Profile() {
 
   return session?.user?.email ? (
     <Group>
+      <Button onClick={() => router.push('/post/create')} leftIcon={<Plus />} px="sm">
+        Video
+      </Button>
       <Menu target={<Avatar radius="xl" />} />
       <Text>{session.user.email}</Text>
     </Group>
