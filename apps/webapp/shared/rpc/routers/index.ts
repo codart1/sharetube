@@ -67,11 +67,15 @@ const authenticatedRoutes = createRouter()
 
 const publicRoutes = createRouter()
   .mutation('bindProfile', {
-    input: z.string(),
-    async resolve({ input: userId }) {
+    input: z.object({
+      id: z.string(),
+      email: z.string(),
+    }),
+    async resolve({ input: { email, id: userId } }) {
       return prisma.profile.create({
         data: {
           userId,
+          email,
         },
       });
     },

@@ -1,7 +1,7 @@
-import { Box } from '@mantine/core';
+import { Videos } from '../shared/Videos';
 
 export function Index() {
-  return <Box>Home page</Box>;
+  return <Videos />;
 }
 
 export default Index;

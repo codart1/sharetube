@@ -18,7 +18,7 @@ export default function Register() {
           return noti.show('error', error.message);
         }
 
-        const profile = await bindProfile(user.id);
+        const profile = await bindProfile({ email, id: user.id });
 
         noti.show('success', 'Your account was created.');
       }}
