@@ -14,9 +14,8 @@ import { withRPC } from '../shared/rpc/hoc';
 import { useRouter } from 'next/router';
 
 export default withRPC(
-  process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}/api/trpc`
-    : 'http://localhost:4200/api/trpc'
+  // @ts-expect-error ignore
+  process.env.NX_RPC_URL
 )(App);
 
 function App(props: AppProps) {
