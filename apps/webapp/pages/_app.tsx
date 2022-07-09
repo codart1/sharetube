@@ -15,7 +15,9 @@ import { useRouter } from 'next/router';
 
 export default withRPC(
   // @ts-expect-error ignore
-  process.env.NX_RPC_URL
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:4200/api/trpc'
+    : process.env.NX_RPC_URL
 )(App);
 
 function App(props: AppProps) {
