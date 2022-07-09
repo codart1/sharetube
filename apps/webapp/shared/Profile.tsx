@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Group, Popover, Text } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
+import { noti } from '@sharetube/notification';
 import { Session } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -58,12 +58,9 @@ const Menu = ({ target }: { target: React.ReactNode }) => {
     >
       <Button
         onClick={() => {
-          supabasePublic.auth.signOut().then(() =>
-            showNotification({
-              message: 'You have been signed out',
-              color: 'blue',
-            })
-          );
+          supabasePublic.auth
+            .signOut()
+            .then(() => noti.show('info', 'You have been signed out'));
         }}
       >
         Logout

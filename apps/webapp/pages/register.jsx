@@ -1,5 +1,4 @@
-import { showNotification } from '@mantine/notifications';
-import { Check, ExclamationMark } from 'tabler-icons-react';
+import { noti } from '@sharetube/notification';
 import { AuthForm } from '../shared/AuthForm';
 import { rpc } from '../shared/rpc/hook';
 import { supabasePublic } from '../shared/supabase/supabasePublic';
@@ -16,24 +15,12 @@ export default function Register() {
         });
 
         if (error || !user) {
-          return showNotification({
-            message: error.message,
-            title: 'Oops!',
-            color: 'red',
-            icon: <ExclamationMark />,
-          });
+          return noti.show('error', error.message);
         }
 
         const profile = await bindProfile(user.id);
 
-        console.log({ profile });
-
-        showNotification({
-          title: 'Great!',
-          message: 'Your account was created.',
-          color: 'green',
-          icon: <Check />,
-        });
+        noti.show('success', 'Your account was created.');
       }}
       type="register"
     />

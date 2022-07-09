@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@sharetube/config": ["libs/config/src/index.ts"],
+      "@sharetube/notification": ["libs/notification/src/index.ts"],
       "@sharetube/prisma": ["libs/prisma/src/index.ts"]
     }
   },

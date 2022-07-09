@@ -1,4 +1,4 @@
-import { showNotification } from '@mantine/notifications';
+import { noti } from '@sharetube/notification';
 import { useRouter } from 'next/router';
 import { AuthForm } from '../shared/AuthForm';
 import { supabasePublic } from '../shared/supabase/supabasePublic';
@@ -10,13 +10,10 @@ export default function Login() {
       onSubmit={({ email, password }) =>
         supabasePublic.auth.signIn({ email, password }).then(({ error }) => {
           if (error) {
-            return showNotification({ message: error.message, color: 'red' });
+            return noti.show('error', error.message);
           }
           router.push('/');
-          showNotification({
-            message: 'You have been signed in.',
-            color: 'green',
-          });
+          noti.show('success', 'You have been signed in');
         })
       }
       type="login"

@@ -8,7 +8,7 @@ import {
   MantineProvider,
   Text,
 } from '@mantine/core';
-import { NotificationsProvider } from '@mantine/notifications';
+import { NotificationsProvider } from '@sharetube/notification';
 import { Profile } from '../shared/Profile';
 import { withRPC } from '../shared/rpc/hoc';
 import { useRouter } from 'next/router';
