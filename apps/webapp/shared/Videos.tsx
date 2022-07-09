@@ -5,9 +5,9 @@ import {
   SimpleGridProps,
   Text,
 } from '@mantine/core';
-import type { Post } from '@prisma/client';
+import type { Post, Profile } from '@prisma/client';
 import getVideoId from 'get-video-id';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import YouTube from 'react-youtube';
 import { supabasePublic } from './supabase/supabasePublic';
 
@@ -16,7 +16,7 @@ export function Videos(props: SimpleGridProps) {
 
   return (
     <SimpleGrid cols={2} spacing="sm" {...props}>
-      {videos.map(({ id, url, title, description }) => {
+      {videos.map(({ id, url, title, description, author }) => {
         const videoId = getVideoId(url).id;
         if (!videoId) return null;
         return (
@@ -36,14 +36,13 @@ export function Videos(props: SimpleGridProps) {
               mt="md"
             >
               {title}
-              {/* <Text lineClamp={1}>{title}</Text> */}
             </Text>
             <Text>
               <Text component="span" color="dimmed">
                 Shared by
               </Text>{' '}
               <Text component="span" color="blue">
-                someone@gmail.com
+                {author.email}
               </Text>
             </Text>
             <Text component="p" size="sm" color="dimmed" lineClamp={3}>
@@ -57,15 +56,13 @@ export function Videos(props: SimpleGridProps) {
 }
 
 const useVideos = () => {
-  const [videos, setVideos] = useState<Post[]>([]);
+  const [videos, setVideos] = useState<PostData[]>([]);
   const [loading, setLoading] = useState(false);
 
-  console.log({ videos });
-
-  useEffect(() => {
+  const load = useCallback(() => {
     setLoading(true);
     supabasePublic
-      .from<Post>('Post')
+      .from<PostData>('Post')
       .select(`*, author:profileId (*)`)
       .limit(10)
       .order('id', { ascending: false })
@@ -75,18 +72,19 @@ const useVideos = () => {
       });
   }, []);
 
+  useEffect(load, [load]);
+
   useEffect(() => {
     const sub = supabasePublic
-      .from<Post>('Post')
-      .on('INSERT', (payload) => {
-        console.log({ payload });
-        setVideos((prev) => [payload.new, ...prev]);
-      })
+      .from<PostData>('Post')
+      .on('INSERT', load)
       .subscribe();
     return () => {
       sub.unsubscribe();
     };
-  }, []);
+  }, [load]);
 
   return [videos, { loading }] as const;
 };
+
+type PostData = Post & { author: Profile };
