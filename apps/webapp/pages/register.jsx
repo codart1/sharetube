@@ -1,10 +1,12 @@
 import { noti } from '@sharetube/notification';
+import { useRouter } from 'next/router';
 import { AuthForm } from '../shared/AuthForm';
 import { rpc } from '../shared/rpc/hook';
 import { supabasePublic } from '../shared/supabase/supabasePublic';
 
 export default function Register() {
   const { mutateAsync: bindProfile } = rpc.useMutation('public.bindProfile');
+  const router = useRouter();
 
   return (
     <AuthForm
@@ -21,6 +23,7 @@ export default function Register() {
         const profile = await bindProfile({ email, id: user.id });
 
         noti.show('success', 'Your account was created.');
+        router.push('/');
       }}
       type="register"
     />
