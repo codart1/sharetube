@@ -8,7 +8,7 @@
     "test": "nx test",
     "build:webapp": "nx client:generate prisma && nx build webapp --prod"
   },
-  "type": "commonjs",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@mantine/core": "^4.2.12",
