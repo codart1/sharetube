@@ -37,7 +37,7 @@ export function Videos(props: SimpleGridProps) {
             >
               {title}
             </Text>
-            <Text>
+            <Text data-testid={`sharedby-${id}`}>
               <Text component="span" color="dimmed">
                 Shared by
               </Text>{' '}
@@ -87,4 +87,4 @@ const useVideos = () => {
   return [videos, { loading }] as const;
 };
 
-type PostData = Post & { author: Profile };
+export type PostData = Post & { author: Profile };
