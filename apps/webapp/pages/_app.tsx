@@ -12,6 +12,7 @@ import { NotificationsProvider } from '@sharetube/notification';
 import { Profile } from '../shared/Profile';
 import { withRPC } from '../shared/rpc/hoc';
 import { useRouter } from 'next/router';
+import FoucHider from '../shared/FoucHider';
 
 export default withRPC(
   // @ts-expect-error ignore
@@ -43,6 +44,7 @@ function App(props: AppProps) {
         }}
       >
         <NotificationsProvider>
+          <FoucHider />
           <AppShell
             padding="md"
             header={
